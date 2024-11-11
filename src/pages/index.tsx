@@ -1,12 +1,15 @@
-import { useEffect, useState, useRef, RefObject } from "react";
+import { useEffect, useState, useRef } from "react";
 import "../index.css"
+import Settings from "./settings"
 
-const UnderlineText = () => {
+const items = ["Songs", "Albums", "Artists", "Playlists", "Settings"];
+
+type handleChangeFunc = (a: number) => void;
+const UnderlineText = ({ handleChange }: { handleChange: handleChangeFunc }) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [underlineStyle, setUnderlineStyle] = useState<React.CSSProperties>({});
   const itemsRef = useRef<(HTMLSpanElement | null)[]>([]);
 
-  const items = ["Songs", "Albums", "Artists", "Playlists", "Settings"];
 
   useEffect(() => {
     const updateUnderline = () => {
@@ -19,6 +22,7 @@ const UnderlineText = () => {
       }
     };
     updateUnderline();
+    handleChange(selectedIndex);
     window.addEventListener('resize', updateUnderline);
     return () => {
       window.removeEventListener('resize', updateUnderline);
@@ -45,19 +49,22 @@ const UnderlineText = () => {
 }
 
 const Index = () => {
-  const [_state, setState] = useState("");
+  const [tab, setTab] = useState(0);
+  const handleTabChange = (tab: number) => {
+    setTab(tab);
+  }
   useEffect(() => {
     (async () => {
-      const response = await fetch(`/api/test`);
-      const text = await response.json();
-      setState(text);
+      // const response = await fetch(`/api/test`);
+      // const text = await response.json();
+      // setState(text);
     })();
   }, [])
 
   return (
     <main>
       <div className="top-bar">
-        <UnderlineText />
+        <UnderlineText handleChange={handleTabChange} />
       </div>
       <div className="col-3">
         <div className="col-3-container shadow left-sidebar">
@@ -68,7 +75,7 @@ const Index = () => {
         </div>
         <div className="col-3-container shadow middle-container">
           <div className="scroll">
-
+            {tab == 4 && <Settings />}
           </div>
         </div>
         <div className="col-3-container shadow right-sidebar">
