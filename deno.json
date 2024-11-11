@@ -1,5 +1,7 @@
 {
   "imports": {
-    "@oak/oak": "jsr:@oak/oak@^17.1.3"
+    "@oak/oak": "jsr:@oak/oak@^17.1.3",
+    "@std/fs": "jsr:@std/fs@^1.0.5",
+    "sqlite": "https://deno.land/x/sqlite/mod.ts"
   }
 }

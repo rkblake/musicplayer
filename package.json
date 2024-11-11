@@ -9,9 +9,11 @@
     "dev:vite": "deno run -A npm:vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "db": "deno run --allow-read --allow-write --allow-env src/db/main.ts"
   },
   "dependencies": {
+    "musicmetadata": "^2.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0"
