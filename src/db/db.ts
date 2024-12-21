@@ -1,7 +1,5 @@
 import { DB } from "https://deno.land/x/sqlite@v3.9.1/mod.ts";
 import { walk } from "@std/fs";
-import * as mm from "musicmetadata";
-import type metadata from "musicmetadata";
 
 export const init_db = (): DB => {
     const db = new DB("music.db");
@@ -32,55 +30,14 @@ CREATE TABLE IF NOT EXISTS music_to_playlist (
 `);
     return db;
 };
-// var metadata = {
-//     title: '',
-//     artist: [],
-//     albumartist: [],
-//     album: '',
-//     year: '',
-//     track: { no: 0, of: 0 },
-//     genre: [],
-//     disk: { no: 0, of: 0 },
-//     picture: [],
-//     duration: 0
-//   }
-type metadata = {
-    title: string;
-    artist: string[];
-    albumartist: string[];
-    album: string;
-    year: string;
-    track: { "no": number; "of": number };
-    disk: { "no": number; "of": number };
-    duration: number;
-};
 
-export const sync_db = async (db: DB) => {
+export const sync_db = async (_db: DB) => {
     const dir = Deno.env.get("MUSIC_DIR");
     for await (const dirEntry of walk(dir!, { exts: ["mp3"] })) {
-        mm.default(
-            Deno.readFileSync(dirEntry.path),
-            { duration: true },
-            (err: Error | null, meta: metadata) => {
-                if (!err) {
-                    db.execute(`
-INSERT OR IGNORE INTO music (title, album, artist, path)
-VALUES ('${meta.title}', '${meta.album}', '${meta.artist}', '${dirEntry.path}');
-`);
-                }
-            },
-        );
+        console.log(dirEntry);
     }
 };
 
-type song = {
-    name: string;
-    album: string;
-    artist: string;
-    path: string;
-    // track_num: number;
-    // duration: number;
-};
 export const get_songs = (db: DB) => {
     const songs = db.query(`
 SELECT title, album, artist, path FROM music;

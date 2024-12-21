@@ -13,7 +13,7 @@
     "db": "deno run --allow-read --allow-write --allow-env src/db/main.ts"
   },
   "dependencies": {
-    "musicmetadata": "^2.0.5",
+    "id3js": "^2.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0"

@@ -23,9 +23,9 @@ const UnderlineText = ({ handleChange }: { handleChange: handleChangeFunc }) => 
     };
     updateUnderline();
     handleChange(selectedIndex);
-    window.addEventListener('resize', updateUnderline);
+    globalThis.addEventListener('resize', updateUnderline);
     return () => {
-      window.removeEventListener('resize', updateUnderline);
+      globalThis.removeEventListener('resize', updateUnderline);
     }
   }, [selectedIndex]);
 
